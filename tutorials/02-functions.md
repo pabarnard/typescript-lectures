@@ -31,8 +31,7 @@ console.log("Adding a bedroom:");
 newHome.bedrooms++; // Now we can do stuff with the item!
 console.log("Now the house has " + newHome.bedrooms + " bedrooms!");
 ```
-
-In TypeScript, you need to specify types for your parameters AND the return type.  Here's an example:
+IMPORTANT: Functions in JavaScript do NOT require values to be passed in by default.  If no value is supplied for a parameter, it will have a default value of `undefined`.  However, in TypeScript, you need to specify types for your parameters AND the return type.  Here's an example:
 ```ts
 function addNumsV1(a: number, b: number): number { // Notice how we specify data types for each parameter, then the type for the return value.
     return a + b;
@@ -104,7 +103,9 @@ Two of the most common ways to narrow a variable with multiple possible data typ
 We'll learn more about narrowing in future lessons, but for more reading, check this document out from TypeScript: https://www.typescriptlang.org/docs/handbook/2/narrowing.html.
 
 ## Optional parameters and keys
-JavaScript and several other languages allow for parameters to be *optional.*  TypeScript retains this flexibility.  When you define optional parameters, they must be placed last, and each parameter must have a "?" at the end of the name.  Here's an example:
+JavaScript and several other languages allow for parameters to be *optional.*  By default in JavaScript, *a parameter in a function is undefined if no value is supplied.*  But in TypeScript we normally must specify our data types and pass in values. 
+
+The good news is that it is still possible to make parameters optional in TypeScript - with types provided accordingly.  When you define optional parameters, they must be placed last, and each parameter must have a "?" at the end of the name.  Here's an example:
 ```ts
 function greet(firstName: string, lastName?: string): string { // Notice how lastName is at the end and is optional thanks to the "?" symbol
     // console.log(lastName); // lastName is "string | undefined" here
@@ -144,7 +145,53 @@ Performing optional checking is very useful!  In React, you can use the "?" to c
 You can forcibly perform an operation by using the bang "!" operator, but it's *VERY* dangerous because it ignores the possibility of a key being undefined.  For example, you could do `me.siblings!.length`, but it could lead to an error!
 
 ## Rest parameters (the spread operator inside a function)
-To be added
+Imagine that a function requires a variable number of parameters.  This comes up often with callback functions.  (A callback function is a function passed in to another as an argument that's meant to be invoked later on.  An example is passing a callback to JavaScript's map method for arrays to perform operations for each element of the array.)
+
+To allow flexibility in terms of passing in a variable number of parameters, we can use the **spread operator**, which is an ellipsis: `...`.  (The spread operator is often used to grab values from objects and arrays.)  Here is an example:
+```ts
+const addNumbers = (first: number, ...second: number[]): number => {
+    let sum: number = first;
+    for (let val of second) { // The remaining elements are saved in an array
+        sum += val;
+    }
+    return val;
+}
+```
+This allows us to call the function with at least one parameter supplied, but you could give it as many as you want:
+```ts
+addNumbers(10); // returns 10
+addNumbers(3, 12); // returns 15
+addNumbers(5, 4, 2); // returns 11
+```
+WARNING: With callback functions, try NOT to utilize optional parameters unless you absolutely intend to do so!
 
 ## Function/method overloading
-To be added
+When a function is created, the types of its inputs must be specified.  However, you can use unions to allow flexibility, and this actually is recommended.  Here's an example:
+```ts
+function demo(a: number | string, b: number | string): void {
+    // Do stuff here
+}
+```
+There are four possible type combos: number and number, number and string, string and number, and string and string.  It's not likely that one would want a string and number.  So we can restrict the type combos a bit by overloading functions like so:
+```ts
+function demo(a: number, b: number): void // Overload signature with numbers
+function demo(a: string, b: string): void // Another overload signature with strings
+function demo(a: number | string, b: number | string): void { // Implementation signature
+    // Do stuff here
+}
+```
+This means the two parameters must be the same type in this example.  IMPORTANT: when calling functions, you can ONLY use the overloaded signatures and NEVER the implementation signature.
+
+There are times when unions are better than overloads, like with this example:
+```ts
+function countChars(a: string[]): number
+function countChars(a: string): number
+function countChars(a: string | string[]): number {
+    // code here to return a number
+}
+```
+But here we don't really need the overload, as we can write logic to determine the best way to go based on its input type using the `typeof` operator or the `Array.isArray()` method to narrow accordingly.
+
+It's best to use unions instead of overloads in most cases, but this overload section is here for your information.
+
+More info can be found here on what you should and shouldn't do with function overloads and callbacks: https://www.typescriptlang.org/docs/handbook/declaration-files/do-s-and-don-ts.html#callback-types

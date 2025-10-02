@@ -4,5 +4,3 @@
 - Defining functions
     - Using types
 - Type narrowing
-- Optional parameters
-- Optional keys
