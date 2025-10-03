@@ -180,7 +180,7 @@ function demo(a: number | string, b: number | string): void { // Implementation 
     // Do stuff here
 }
 ```
-This means the two parameters must be the same type in this example.  IMPORTANT: when calling functions, you can ONLY use the overloaded signatures and NEVER the implementation signature.
+This means the two parameters must be the same type in this example.  IMPORTANT: when calling functions, you can ONLY use the overloaded signatures and NEVER the implementation signature.  Think of the implementation signature like a menu of options at a restaurant, and each overload signature as one option for a meal.
 
 There are times when unions are better than overloads, like with this example:
 ```ts
