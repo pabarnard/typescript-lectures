@@ -278,7 +278,39 @@ const myAndroid: Android = {
 Notice how we use the word `extends` when an interface inherits from another interface vs. the word `implements` when a class inherits from an interface.  So an interface can extend another interface, an a class implements an interface.
 
 ## Abstract classes
-To be added!
+An **abstract class** is a class that cannot be instantiated.  In other words, you cannot create an item that is of this class directly.  Think of it like a blueprint that other classes must implement.  Imagine a television set.  There are many features and abilities that it can have, like the ability to connect to the internet, use Bluetooth, HDR, etc.  There are many common features a TV can have, like a screen, a power button, etc.  But other features and abilities will depend on each TV, and some manufacturers will have their own ways of implementing stuff.  One manufacturer might support the newest WiFi standard, but another might not.  One might have several buttons on the TV itself, while other might have a single button that can handle many operations.  
+
+Now that you have an idea of a real life example where an abstract class could be useful, let's demonstrate how in TypeScript:
+```ts
+abstract class Television {
+    size: number;
+    isOn: boolean;
+    abstract turnOn(): void; // Abstract method
+    constructor(size: number) {
+        this.size = size;
+        this.isOn = false;
+    }
+}
+
+class MagicTV extends Television {
+    brand: string;
+    constructor(size: number, brand: string = "Magic") {
+        super(size);
+        this.brand = brand;
+    }
+
+    turnOn() { // You must implement abstract methods!
+        this.isOn = true;
+    }
+}
+```
+In the `Television` abstract class, we have attributes `size` and `isOn`.  If you create attributes in an abstract class, they must be implemented in the constructor or otherwise assigned a default value.
+
+If you add a constructor in an abstract class, then every subclass that implements it *must* pass in the same parameters at a bare minimum as the parameters in the abstract class's constructor as well.  In this example `size` is a parameter in the `Television` abstract class, and so we must do the same in the `MagicTV` class.
+
+Abstract methods can be added as well.  Subclasses then must implement them, like the `turnOn` method in the example above.
+
+JavaScript does not currently have an implementation for abstract classes.
 
 ## Abstract classes vs. interfaces vs. base (generic) classes
 To be added!
