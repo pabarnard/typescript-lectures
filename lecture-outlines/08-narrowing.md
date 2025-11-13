@@ -7,4 +7,3 @@
     - Arrays
     - Classes
     - Objects
-- Discriminated unions (if there's time)
