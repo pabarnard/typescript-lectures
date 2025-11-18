@@ -153,7 +153,36 @@ function playGame(game: Game): void {
 You can also do a series of `if` statements to determine the type if you wish.
 
 ## Check for optional values
-Deal with undefined or null values in unions, along with optional keys in objets
+If you're dealing with attributes or values that might be optional, like an optional key in an object or a union of objects, it's a good idea to check if there's a value supplied.  The same idea applies to optional parameters in functions and methods.  To check if a value is supplied, you can use the `typeof` operator or the `?` operator or check for `undefined`, depending on the situation:
+```ts
+interface Human {
+    firstName: string,
+    middleName?: string,
+    lastName: string
+}
+let johnDoe: Human = {
+    firstName: "John",
+    lastName: "Doe"
+}
+console.log(johnDoe.middleName?.toUpperCase()); // Check if there is a middle name when chaining
+
+console.log(typeof johnDoe.middleName); // "undefined"
+
+console.log(johnDoe.middleName === undefined);
+```
+**WARNING:** If you're dealing with a possible null value, you should check if it's null by checking for equality to null by doing `variableName === null`.  Do NOT use the `typeof` operator!! 
 
 ## Type predicates ("is" keyword)
-For advanced type checking
+Whenever you deal with more complex data types and classes, sometimes using built-in methods may not be sufficient for narrowing types, and this is especially true for larger codebases.  This is where type predicates come in handy.  A **type predicate** is a statement that returns a boolean value for if a variable is of a particular type or class.  (A predicate function in programming is a function that returns a true or false value based on whether a condition or set of conditions is met.)
+
+The syntax for a type predicate looks like this if you have a variable defined as a union of three different classes:
+```ts
+function checkIfThisItemIsTree(item: Tree | Flower | Grass): item is Tree {
+    return item instanceof Tree;
+}
+```
+Notice the return statement that checks if the variable is a `Tree`.  The line that defines the function contains the statement `item is Tree` after defining the function, so the variable is predicated on being the type `Tree`.
+
+If you're dealing with objects, you can use type predicates to narrow down if a field or set of fields exists.  You can even check if an interface is implemented.
+
+The power of type predicate functions like the one above lies in its reusability if you often need to check if a variable is of a particular type.
