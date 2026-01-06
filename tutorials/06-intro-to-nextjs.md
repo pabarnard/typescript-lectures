@@ -45,3 +45,9 @@ The `app` folder is a starter folder that contains your CSS and tsx files.  The 
 The `public` folder houses all your static content, so images, videos, etc.
 
 You can find out more about how Next.js projects are organized, along with folder and file conventions, at https://nextjs.org/docs/app/getting-started/project-structure.
+
+## Routing
+Talk about path variables, routing and setting up page.tsx files
+
+## CSS
+Talk about linking CSS files and modules here
