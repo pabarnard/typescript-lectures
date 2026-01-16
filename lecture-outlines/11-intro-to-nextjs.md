@@ -5,5 +5,3 @@
 - Routing
     - Linking
     - Dynamic routing with slugs (path variables)
-- CSS rendering (if there's time)
-- Shared content (if there's time)
